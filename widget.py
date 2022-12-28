@@ -28,8 +28,8 @@ class HashapassWidget:
         self.entry_parameter.grid(column=0, row=0, sticky=(tk.W, tk.E))
 
         self.password = tk.StringVar()
-        entry_master_password = InputField(frame, placeholder='Password', width=16, textvariable=self.password, show='*')
-        entry_master_password.grid(column=1, row=0, sticky=(tk.W, tk.E))
+        self.entry_master_password = InputField(frame, placeholder='Password', width=16, textvariable=self.password, show='*')
+        self.entry_master_password.grid(column=1, row=0, sticky=(tk.W, tk.E))
 
         self.character_count = tk.IntVar(value=10)
         spinbox_length = ttk.Spinbox(frame, width=2, from_=8, to=32, increment=1, state='readonly', textvariable=self.character_count)
@@ -52,6 +52,15 @@ class HashapassWidget:
         self.entry_parameter.focus()
 
     def generate_password(self, *args):
+        password = self.password.get()
+        parameter = self.parameter.get()
+        if parameter == '' or parameter is None:
+            self.entry_parameter.focus()
+            return
+        if password == '' or password is None:
+            self.entry_master_password.focus()
+            return
+
         key = bytes(self.password.get(), 'utf-8')
         parameter = self.parameter.get().encode('utf-8')
         digest = hmac.new(key, msg=parameter, digestmod='sha1').digest()
