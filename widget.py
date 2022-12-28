@@ -68,6 +68,8 @@ class HashapassWidget:
         self.window.clipboard_clear()
         self.window.clipboard_append(self.result.get())
 
+        self.entry_parameter.focus()
+
 
 if __name__ == '__main__':
     window = tk.Tk()
