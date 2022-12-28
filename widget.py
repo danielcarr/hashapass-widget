@@ -15,6 +15,8 @@ class HashapassWidget:
         self.window = window
         self.window.resizable(width=False, height=False)
         self.window.title('Password Generator')
+        self.window.bind('<Return>', self.generate_password)
+        self.window.bind('<Escape>', self.reset)
 
         frame = ttk.Frame(window, padding="1 1 1 1")
         frame.grid(column=0, row=0, sticky=(tk.N, tk.E, tk.W, tk.S))
@@ -24,8 +26,6 @@ class HashapassWidget:
         self.parameter = tk.StringVar()
         self.entry_parameter = InputField(frame, placeholder='Parameter', width=20, textvariable=self.parameter)
         self.entry_parameter.grid(column=0, row=0, sticky=(tk.W, tk.E))
-        self.window.bind('<Return>', self.generate_password)
-        self.window.bind('<Escape>', self.reset)
 
         self.password = tk.StringVar()
         entry_master_password = InputField(frame, placeholder='Password', width=16, textvariable=self.password, show='*')
