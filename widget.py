@@ -13,6 +13,7 @@ class HashapassWidget:
     def __init__(self, window):
 
         self.window = window
+        self.window.resizable(width=False, height=False)
         self.window.title('Password Generator')
 
         frame = ttk.Frame(window, padding="1 1 1 1")
