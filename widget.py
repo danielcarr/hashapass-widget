@@ -28,7 +28,7 @@ class HashapassWidget:
         self.entry_parameter.grid(column=0, row=0, sticky=(tk.W, tk.E))
 
         self.password = tk.StringVar()
-        self.entry_master_password = InputField(frame, placeholder='Password', width=16, textvariable=self.password, show='*')
+        self.entry_master_password = InputField(frame, placeholder='Master Password', width=16, textvariable=self.password, show='*')
         self.entry_master_password.grid(column=1, row=0, sticky=(tk.W, tk.E))
 
         self.character_count = tk.IntVar(value=10)
