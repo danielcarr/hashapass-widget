@@ -36,8 +36,9 @@ class HashapassWidget:
         spinbox_length.grid(column=2, row=0, sticky=(tk.W, tk.E))
 
         self.result = tk.StringVar()
-        self.entry_generated_password = ttk.Entry(frame, width=16, state='readonly', textvariable=self.result)
-        self.entry_generated_password.grid(column=3, row=0, sticky=(tk.W, tk.E))
+        entry_generated_password = ttk.Entry(frame, width=16, state='readonly', textvariable=self.result)
+        entry_generated_password.configure(takefocus=0)
+        entry_generated_password.grid(column=3, row=0, sticky=(tk.W, tk.E))
 
         for child in self.window.winfo_children():
             child.grid_configure(padx=5, pady=2)
