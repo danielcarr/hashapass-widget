@@ -3,8 +3,8 @@ import tkinter.ttk as ttk
 
 class InputField(ttk.Entry):
 
-    def __init__(self, parent=None, placeholder=None, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
+    def __init__(self, master=None, placeholder=None, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
 
         self.placeholder = placeholder
 
