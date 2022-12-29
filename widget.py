@@ -69,6 +69,7 @@ class HashapassWidget:
         self.window.clipboard_append(self.result.get())
 
         self.entry_parameter.focus()
+        self.entry_parameter.selection_range(0, tk.END)
 
 
 if __name__ == '__main__':
