@@ -1,3 +1,4 @@
+import tkinter as tk
 import tkinter.ttk as ttk
 
 
@@ -19,14 +20,13 @@ class InputField(ttk.Entry):
             self.originalforeground = self['foreground']
             self.originalshow = self['show']
             self.configure(foreground='darkgrey', show='')
-            if self.instate(['focus']):
-                self.delete(0, 'end')
-            else:
+            self.delete(0, tk.END)
+            if not self.instate(['focus']):
                 self.insert(0, self.placeholder)
         else:
-            self.delete(0, 'end')
             self.configure(foreground=self.originalforeground)
             self.configure(show=self.originalshow)
+            self.delete(0, tk.END)
 
     def gained_focus(self, *args):
         if self.isempty:
@@ -34,7 +34,7 @@ class InputField(ttk.Entry):
 
     def lost_focus(self, *args):
         text = self.get()
-        if text == '' or text is None:
+        if text == '':
             self.set_empty(True)
         else:
             self.set_empty(False)
