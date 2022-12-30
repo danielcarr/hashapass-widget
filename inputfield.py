@@ -15,6 +15,9 @@ class InputField(ttk.Entry):
         self.isupdating = None
         self.set_empty(True)
 
+        if 'textvariable' in kwargs:
+            kwargs['textvariable'].trace_add('write', self.text_changed)
+
     def set_empty(self, isempty):
         self.isempty = isempty
         self.isupdating = True
@@ -41,6 +44,9 @@ class InputField(ttk.Entry):
             self.set_empty(True)
 
     def configure(self, **kwargs):
+        if 'textvariable' in kwargs:
+            kwargs['textvariable'].trace_add('write', self.text_changed)
+
         if not self.instate(['focus']) and not self.isupdating:
             if 'show' in kwargs:
                 self.originalshow = kwargs.pop('show')
@@ -55,9 +61,8 @@ class InputField(ttk.Entry):
         else:
             return super().get()
 
-    def set(self, value):
-        if value == '' or value is None:
-            self.set_empty(True)
-        elif self.isempty:
-            self.set_empty(False)
-            super().set(value)
+    def text_changed(self, *args):
+        if self.instate(['focus']) or self.isupdating:
+            return
+        isempty = self.get() == ''
+        self.set_empty(isempty)
