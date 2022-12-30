@@ -36,9 +36,6 @@ class InputField(ttk.Entry):
         text = self.get()
         if text == '':
             self.set_empty(True)
-        else:
-            self.set_empty(False)
-            self.insert(0, text)
 
     def get(self):
         if self.isempty:
