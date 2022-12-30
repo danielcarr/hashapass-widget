@@ -13,12 +13,16 @@ class InputField(ttk.Entry):
         self.bind('<FocusOut>', self.lost_focus)
 
         self.isupdating = None
+        self.isempty = None
         self.set_empty(True)
 
         if 'textvariable' in kwargs:
             kwargs['textvariable'].trace_add('write', self.text_changed)
 
     def set_empty(self, isempty):
+        if isempty == self.isempty:
+            return
+
         self.isempty = isempty
         self.isupdating = True
         if isempty:
