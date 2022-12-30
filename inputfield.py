@@ -12,10 +12,12 @@ class InputField(ttk.Entry):
         self.bind('<FocusIn>', self.gained_focus)
         self.bind('<FocusOut>', self.lost_focus)
 
+        self.isupdating = None
         self.set_empty(True)
 
     def set_empty(self, isempty):
         self.isempty = isempty
+        self.isupdating = True
         if isempty:
             self.originalforeground = self['foreground']
             self.originalshow = self['show']
@@ -27,6 +29,7 @@ class InputField(ttk.Entry):
             self.configure(foreground=self.originalforeground)
             self.configure(show=self.originalshow)
             self.delete(0, tk.END)
+        self.isupdating = False
 
     def gained_focus(self, *args):
         if self.isempty:
@@ -36,6 +39,15 @@ class InputField(ttk.Entry):
         text = self.get()
         if text == '':
             self.set_empty(True)
+
+    def configure(self, **kwargs):
+        if not self.instate(['focus']) and not self.isupdating:
+            if 'show' in kwargs:
+                self.originalshow = kwargs.pop('show')
+            if 'foreground' in kwargs:
+                self.originalforeground = kwargs.pop('foreground')
+
+        super().configure(**kwargs)
 
     def get(self):
         if self.isempty:
