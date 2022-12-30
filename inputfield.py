@@ -47,11 +47,20 @@ class InputField(ttk.Entry):
         if 'textvariable' in kwargs:
             kwargs['textvariable'].trace_add('write', self.text_changed)
 
+        if 'placeholder' in kwargs:
+            self.placeholder = kwargs.pop('placeholder')
+            placeholder_changed = True
+        else:
+            placeholder_changed = False
+
         if not self.instate(['focus']) and not self.isupdating:
             if 'show' in kwargs:
                 self.originalshow = kwargs.pop('show')
             if 'foreground' in kwargs:
                 self.originalforeground = kwargs.pop('foreground')
+            if placeholder_changed and self.isempty:
+                self.delete(0, tk.END)
+                self.insert(0, self.placeholder)
 
         super().configure(**kwargs)
 
