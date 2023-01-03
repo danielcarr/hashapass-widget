@@ -54,17 +54,20 @@ class HashapassWidget:
     def generate_password(self, *args):
         password = self.password.get()
         parameter = self.parameter.get()
-        if parameter == '' or parameter is None:
+
+        if parameter == '':
             self.entry_parameter.focus()
             return
-        if password == '' or password is None:
+        if password == '':
             self.entry_master_password.focus()
             return
 
-        key = bytes(self.password.get(), 'utf-8')
-        parameter = self.parameter.get().encode('utf-8')
-        digest = hmac.new(key, msg=parameter, digestmod='sha1').digest()
-        self.result.set(str(base64.b64encode(digest)[:self.character_count.get()], 'utf-8'))
+        length = self.character_count.get()
+
+        key = bytes(password, 'utf-8')
+        parameter_bytes = parameter.encode('utf-8')
+        digest = hmac.new(key, parameter_bytes, digestmod='sha1').digest()
+        self.result.set(str(base64.b64encode(digest)[:length], 'utf-8'))
         self.window.clipboard_clear()
         self.window.clipboard_append(self.result.get())
 
