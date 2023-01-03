@@ -4,10 +4,11 @@ import tkinter.ttk as ttk
 
 class InputField(ttk.Entry):
 
-    def __init__(self, master=None, placeholder=None, *args, **kwargs):
-        super().__init__(master, *args, **kwargs)
+    def __init__(self, master=None, placeholder='', **kwargs):
+        super().__init__(master, **kwargs)
 
-        self.placeholder = placeholder
+        name = f'{self}-placeholdervariable'
+        self.placeholdervariable = tk.StringVar(name=name, value=placeholder)
 
         self.bind('<FocusIn>', self.gained_focus)
         self.bind('<FocusOut>', self.lost_focus)
@@ -30,11 +31,15 @@ class InputField(ttk.Entry):
             self.originalshow = self['show']
             self.configure(foreground='darkgrey', show='')
             self.delete(0, tk.END)
+            self.originalvariable = self['textvariable']
             if not self.instate(['focus']):
-                self.insert(0, self.placeholder)
+                self.configure(textvariable=self.placeholdervariable)
         else:
-            self.configure(foreground=self.originalforeground)
-            self.configure(show=self.originalshow)
+            self.configure(
+                    foreground=self.originalforeground,
+                    textvariable=self.originalvariable,
+                    show=self.originalshow
+                    )
             self.delete(0, tk.END)
         self.isupdating = False
 
@@ -48,23 +53,19 @@ class InputField(ttk.Entry):
             self.set_empty(True)
 
     def configure(self, **kwargs):
-        if 'textvariable' in kwargs:
-            kwargs['textvariable'].trace_add('write', self.text_changed)
-
         if 'placeholder' in kwargs:
-            self.placeholder = kwargs.pop('placeholder')
-            placeholder_changed = True
-        else:
-            placeholder_changed = False
+            self.placeholdervariable.set(kwargs.pop('placeholder'))
+
+        if 'textvariable' in kwargs and not self.isupdating:
+            kwargs['textvariable'].trace_add('write', self.text_changed)
+            if self.isempty and not self.instate(['focus']):
+                self.originalvariable = kwargs.pop('textvariable')
 
         if not self.instate(['focus']) and not self.isupdating:
             if 'show' in kwargs:
                 self.originalshow = kwargs.pop('show')
             if 'foreground' in kwargs:
                 self.originalforeground = kwargs.pop('foreground')
-            if placeholder_changed and self.isempty:
-                self.delete(0, tk.END)
-                self.insert(0, self.placeholder)
 
         super().configure(**kwargs)
 
