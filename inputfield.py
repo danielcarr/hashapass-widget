@@ -38,8 +38,7 @@ class InputField(ttk.Entry):
             self.configure(
                     foreground=self.originalforeground,
                     textvariable=self.originalvariable,
-                    show=self.originalshow
-                    )
+                    show=self.originalshow)
             self.delete(0, tk.END)
         self.isupdating = False
 

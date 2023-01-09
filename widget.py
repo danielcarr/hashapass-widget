@@ -24,19 +24,27 @@ class HashapassWidget:
         self.window.rowconfigure(0, weight=1)
 
         self.parameter = tk.StringVar()
-        self.entry_parameter = InputField(frame, placeholder='Parameter', width=20, textvariable=self.parameter)
+        self.entry_parameter = InputField(
+                frame, placeholder='Parameter',
+                width=20, textvariable=self.parameter)
         self.entry_parameter.grid(column=0, row=0, sticky=(tk.W, tk.E))
 
         self.password = tk.StringVar()
-        self.entry_master_password = InputField(frame, placeholder='Master Password', width=16, textvariable=self.password, show='*')
+        self.entry_master_password = InputField(
+                frame, placeholder='Master Password',
+                width=16, show='*', textvariable=self.password)
         self.entry_master_password.grid(column=1, row=0, sticky=(tk.W, tk.E))
 
         self.character_count = tk.IntVar(value=10)
-        spinbox_length = ttk.Spinbox(frame, width=2, from_=8, to=32, increment=1, state='readonly', textvariable=self.character_count)
+        spinbox_length = ttk.Spinbox(
+                frame, width=2, from_=8, to=32, increment=1,
+                state='readonly', textvariable=self.character_count)
         spinbox_length.grid(column=2, row=0, sticky=(tk.W, tk.E))
 
         self.result = tk.StringVar()
-        entry_generated_password = ttk.Entry(frame, width=16, font='TkFixedFont', state='readonly', textvariable=self.result)
+        entry_generated_password = ttk.Entry(
+                frame, width=16, font='TkFixedFont',
+                state='readonly', textvariable=self.result)
         entry_generated_password.configure(takefocus=0)
         entry_generated_password.grid(column=3, row=0, sticky=(tk.W, tk.E))
 
