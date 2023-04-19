@@ -18,7 +18,7 @@ class HashapassWidget:
         self.window.bind('<Return>', self.generate_password)
         self.window.bind('<Escape>', self.reset)
 
-        frame = ttk.Frame(window, padding="1 1 1 1")
+        frame = ttk.Frame(window, padding='1 1 1 1')
         frame.grid(column=0, row=0, sticky=(tk.N, tk.E, tk.W, tk.S))
         self.window.columnconfigure(0, weight=1)
         self.window.rowconfigure(0, weight=1)
