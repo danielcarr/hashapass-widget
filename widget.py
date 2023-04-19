@@ -44,14 +44,22 @@ class HashapassWidget:
         self.result = tk.StringVar()
         entry_generated_password = ttk.Entry(
                 frame, width=16, font='TkFixedFont',
-                state='readonly', textvariable=self.result)
-        entry_generated_password.configure(takefocus=0)
+                state='readonly', takefocus=0, textvariable=self.result)
         entry_generated_password.grid(column=3, row=0, sticky=(tk.W, tk.E))
+        entry_generated_password.bind('<Double-Button-1>', self.copy_password)
 
         for child in self.window.winfo_children():
             child.grid_configure(padx=5, pady=2)
 
         self.reset()
+
+    def copy_password(self, event):
+        self.window.clipboard_clear()
+        self.window.clipboard_append(self.result.get())
+        if event.type.startswith('Button'):
+            event.widget.selection_range(0, tk.END)
+            # Stop processing bindings to prevent partial text selection
+            return 'break'
 
     def reset(self, *args):
         self.parameter.set('')
@@ -59,7 +67,7 @@ class HashapassWidget:
         self.result.set('')
         self.entry_parameter.focus()
 
-    def generate_password(self, *args):
+    def generate_password(self, event):
         password = self.password.get()
         parameter = self.parameter.get()
 
@@ -76,8 +84,8 @@ class HashapassWidget:
         parameter_bytes = parameter.encode('utf-8')
         digest = hmac.new(key, parameter_bytes, digestmod='sha1').digest()
         self.result.set(str(base64.b64encode(digest)[:length], 'utf-8'))
-        self.window.clipboard_clear()
-        self.window.clipboard_append(self.result.get())
+
+        self.copy_password(event)
 
         self.entry_parameter.focus()
         self.entry_parameter.selection_range(0, tk.END)
