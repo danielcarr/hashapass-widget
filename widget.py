@@ -1,10 +1,9 @@
 #! /usr/bin/env python3
 
-import base64
-import hmac
 import tkinter as tk
 import tkinter.ttk as ttk
 
+import hashapass
 from inputfield import InputField
 
 
@@ -91,10 +90,7 @@ class HashapassWidget:
 
         length = self.character_count.get()
 
-        key = bytes(password, 'utf-8')
-        parameter_bytes = parameter.encode('utf-8')
-        digest = hmac.new(key, parameter_bytes, digestmod='sha1').digest()
-        self.result.set(str(base64.b64encode(digest)[:length], 'utf-8'))
+        self.result.set(hashapass.generate(parameter, password, length))
 
         self.copy_password(event)
 
