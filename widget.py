@@ -66,7 +66,7 @@ class HashapassWidget:
     def copy_password(self, event):
         self.window.clipboard_clear()
         self.window.clipboard_append(self.result.get())
-        if event.type.name == 'ButtonPress':
+        if event.type == tk.EventType.ButtonPress:
             event.widget.selection_range(0, tk.END)
             # Stop processing bindings to prevent partial text selection
             return 'break'
