@@ -48,7 +48,9 @@ class HashapassWidget:
         # Bind events
         self.window.bind('<Return>', self.generate_password)
         self.window.bind('<Escape>', self.reset)
-        entry_generated_password.bind('<Double-Button-1>', self.copy_password)
+        double_click = '<Double-Button-1>'
+        self.entry_master_password.bind(double_click, self.copy_field_input)
+        entry_generated_password.bind(double_click, self.copy_password)
 
         # Layout widgets
         horizontal = (tk.W, tk.E)
@@ -63,13 +65,17 @@ class HashapassWidget:
         # Set initial UI state
         self.reset()
 
+    def copy_field_input(self, event):
+        if event.widget.get():
+            event.widget.selection_range(0, tk.END)
+            # Stop processing bindings to prevent partial text selection
+            return 'break'
+
     def copy_password(self, event):
         self.window.clipboard_clear()
         self.window.clipboard_append(self.result.get())
         if event.type == tk.EventType.ButtonPress:
-            event.widget.selection_range(0, tk.END)
-            # Stop processing bindings to prevent partial text selection
-            return 'break'
+            return self.copy_field_input(event)
 
     def reset(self, *args):
         self.parameter.set('')
