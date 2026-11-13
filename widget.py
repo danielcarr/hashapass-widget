@@ -47,6 +47,7 @@ class HashapassWidget:
 
         # Bind events
         self.window.bind('<Return>', self.generate_password)
+        self.window.bind('<KP_Enter>', self.generate_password)  # NumPad Enter
         self.window.bind('<Escape>', self.reset)
         double_click = '<Double-Button-1>'
         self.entry_master_password.bind(double_click, self.copy_field_input)
