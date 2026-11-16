@@ -1,0 +1,9 @@
+[project]
+name = 'hashapass-widget'
+description = 'A widget for generating deterministic strong passwords'
+version = '0.6.0'
+readme = 'README.md'
+authors = [
+    { name = 'Daniel Carr' }
+]
+license = { text = 'UNLICENSE' }
